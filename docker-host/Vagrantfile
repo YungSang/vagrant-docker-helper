@@ -1,0 +1,28 @@
+require_relative "host_machine_build_dir-patched.rb"
+require_relative "host_machine_sync_folders-patched.rb"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "yungsang/boot2docker"
+
+  config.vm.provider "virtualbox" do |v, override|
+    # On VirtualBox, we don't have guest additions or a functional vboxsf
+    # in TinyCore Linux, so tell Vagrant that so it can be smarter.
+    v.check_guest_additions = false
+    v.functional_vboxsf     = false
+    override.vm.network "private_network", ip: "192.168.33.10"
+  end
+
+  config.vm.provider "parallels" do |p, override|
+    p.check_guest_tools = false
+    p.functional_psf    = false
+    override.vm.network "private_network", ip: "192.168.34.10"
+  end
+
+#  config.nfs.functional = false
+  config.vm.synced_folder "..", "/vagrant", type: "nfs"
+end
+
+# Extra configuration between boot2docker and a local machine, related to ../Vagrantfile
+Vagrant.configure("2") do |config|
+  config.vm.network :forwarded_port, guest: 8080, host: 8080
+end
