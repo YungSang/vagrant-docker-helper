@@ -6,8 +6,6 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.require_version ">= 1.6.1"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.synced_folder ".", "/vagrant", docker__exact: true
-
   config.vm.provider "docker" do |d|
     d.vagrant_vagrantfile = "./docker-host/Vagrantfile"
 
