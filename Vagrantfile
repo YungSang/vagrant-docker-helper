@@ -3,14 +3,16 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.require_version ">= 1.6.1"
+Vagrant.require_version ">= 1.6.2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "docker" do |d|
     d.vagrant_vagrantfile = "./docker-host/Vagrantfile"
 
     d.build_dir = "."
-    d.volumes   = ["/vagrant:/vagrant"]
+    d.host_vm_build_dir_options = {
+      type: "nfs"
+    }
   end
 
   # port forwarding between a container and boot2docker

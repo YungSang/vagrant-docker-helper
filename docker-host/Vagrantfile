@@ -1,4 +1,3 @@
-require_relative "host_machine_build_dir-patched.rb"
 require_relative "host_machine_sync_folders-patched.rb"
 
 Vagrant.configure("2") do |config|
@@ -19,7 +18,7 @@ Vagrant.configure("2") do |config|
   end
 
 #  config.nfs.functional = false
-  config.vm.synced_folder "..", "/vagrant", type: "nfs"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 end
 
 # Extra configuration between boot2docker and a local machine, related to ../Vagrantfile

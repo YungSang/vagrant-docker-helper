@@ -153,25 +153,50 @@ module VagrantPlugins
             return
           end
 
-# We don't need host_machine/sync_folders
-#          if !new_config.synced_folders.empty?
-#            # Sync the folders!
-#            env[:machine].ui.output(I18n.t(
-#              "docker_provider.host_machine_syncing_folders"))
-#            host_machine.with_ui(proxy_ui) do
-#              action_env = { synced_folders_config: new_config }
-#              begin
-#                host_machine.action(:sync_folders, action_env)
-#              rescue Vagrant::Errors::MachineActionLockedError
-#                sleep 1
-#                retry
-#              rescue Vagrant::Errors::UnimplementedProviderAction
-#                callable = Vagrant::Action::Builder.new
-#                callable.use Vagrant::Action::Builtin::SyncedFolders
-#                host_machine.action_raw(:sync_folders, callable, action_env)
-#              end
-#            end
-#          end
+          action_env = { synced_folders_config: new_config }
+
+          # Prepare NFS
+          if env[:machine].provider_config.host_vm_build_dir_options &&
+            env[:machine].provider_config.host_vm_build_dir_options[:type] &&
+            env[:machine].provider_config.host_vm_build_dir_options[:type] == "nfs"
+            nfs_host_ip = nil
+            host_machine.provider.driver.read_network_interfaces.each do |adapter, opts|
+              if opts[:type] == :hostonly
+                host_machine.provider.driver.read_host_only_interfaces.each do |interface|
+                  if interface[:name] == opts[:hostonly]
+                    nfs_host_ip = interface[:ip]
+                  end
+                end
+              end
+            end
+            action_env[:nfs_host_ip]    = nfs_host_ip
+
+            nfs_machine_ip = nil
+            host_machine.config.vm.networks.each do |type, options|
+              if type == :private_network && options[:ip].is_a?(String)
+                nfs_machine_ip = options[:ip]
+              end
+            end
+            action_env[:nfs_machine_ip] = nfs_machine_ip
+          end
+
+          if !new_config.synced_folders.empty?
+            # Sync the folders!
+            env[:machine].ui.output(I18n.t(
+              "docker_provider.host_machine_syncing_folders"))
+            host_machine.with_ui(proxy_ui) do
+              begin
+                host_machine.action(:sync_folders, action_env)
+              rescue Vagrant::Errors::MachineActionLockedError
+                sleep 1
+                retry
+              rescue Vagrant::Errors::UnimplementedProviderAction
+                callable = Vagrant::Action::Builder.new
+                callable.use Vagrant::Action::Builtin::SyncedFolders
+                host_machine.action_raw(:sync_folders, callable, action_env)
+              end
+            end
+          end
         end
       end
     end
