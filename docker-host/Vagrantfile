@@ -20,8 +20,3 @@ Vagrant.configure("2") do |config|
 #  config.nfs.functional = false
   config.vm.synced_folder ".", "/vagrant", disabled: true
 end
-
-# Extra configuration between boot2docker and a local machine, related to ../Vagrantfile
-Vagrant.configure("2") do |config|
-  config.vm.network :forwarded_port, guest: 8080, host: 8080
-end
