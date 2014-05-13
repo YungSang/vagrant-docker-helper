@@ -1,8 +1,7 @@
 # Helper for Vagrant Docker provider
 
 - For no linux host machine which needs boot2docker VM, especially Mac.
-- Use NFS synced folder for boot2docker VM instead of rsync.
-- Map the current local directory onto `/vagrant` in a container through `/vagrant` in boot2docker VM
+- Use NFS synced folder instead of rsync.
 
 ### Boot up boot2docker VM (= `vagrant up`)
 ```
