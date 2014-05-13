@@ -3,6 +3,9 @@
 - For no linux host machine which needs boot2docker VM, especially Mac.
 - Use NFS synced folder instead of rsync.
 
+***Note) But you may prefer Docker provisioner to Docker provider on Mac.***
+https://github.com/YungSang/vagrant-docker-helper/tree/master/provisioner
+
 ### Boot up boot2docker VM (= `vagrant up`)
 ```
 $ make up
