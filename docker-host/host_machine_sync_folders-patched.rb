@@ -78,6 +78,8 @@ module VagrantPlugins
             end
           end
 
+          host_vm_build_dir_options = env[:machine].provider_config.host_vm_build_dir_options || {}
+
           # Sync some folders so that our volumes work later.
           new_config  = VagrantPlugins::Kernel_V2::VMConfig.new
           our_folders = synced_folders(env[:machine])
@@ -114,6 +116,11 @@ module VagrantPlugins
               if !data[:docker__exact]
                 data[:guestpath] =
                   "/var/lib/docker/docker_#{Time.now.to_i}_#{rand(100000)}"
+              end
+
+              if host_vm_build_dir_options[:type] && host_vm_build_dir_options[:type] == "nfs" &&
+                host_vm_build_dir_options[:mount_options]
+                data[:mount_options] = host_vm_build_dir_options[:mount_options]
               end
 
               # Add this synced folder onto the new config if we haven't
@@ -156,9 +163,7 @@ module VagrantPlugins
           action_env = { synced_folders_config: new_config }
 
           # Prepare NFS
-          if env[:machine].provider_config.host_vm_build_dir_options &&
-            env[:machine].provider_config.host_vm_build_dir_options[:type] &&
-            env[:machine].provider_config.host_vm_build_dir_options[:type] == "nfs"
+          if host_vm_build_dir_options[:type] && host_vm_build_dir_options[:type] == "nfs"
             nfs_host_ip = nil
             host_machine.provider.driver.read_network_interfaces.each do |adapter, opts|
               if opts[:type] == :hostonly
