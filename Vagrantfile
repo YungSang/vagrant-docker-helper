@@ -11,7 +11,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     d.build_dir = "."
     d.host_vm_build_dir_options = {
-      type: "nfs"
+      type: "nfs",
+      mount_options: ['nolock,vers=3,udp']
     }
   end
 
