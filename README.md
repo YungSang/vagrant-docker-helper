@@ -1,42 +1,42 @@
 # Helper for Vagrant Docker provider
 
-- For no linux host machine which needs boot2docker VM, especially Mac.
+- For no linux host machine which needs boot2docker/CoreOS as a host VM, especially Mac.
 - Use NFS synced folder instead of rsync.
 
 ***Note) But you may prefer Docker provisioner to Docker provider on Mac.***
 https://github.com/YungSang/vagrant-docker-helper/tree/master/provisioner
 
-### Boot up boot2docker VM (= `vagrant up`)
+### Boot up a host VM (= `vagrant up`)
 ```
 $ make up
 ```
 
-### Remake a container (= `vagrant reload`)
+### Remake containers (= `vagrant reload`)
 ```
 $ make provision
 ```
 
-### SSH to boot2docker VM
+### SSH to a host VM
 ```
 $ make ssh
 ```
 
-###  Reload boot2docker VM
+###  Reload a host VM
 ```
 $ make reload
 ```
 
-### Suspend boot2docker VM
+### Suspend a host VM
 ```
 $ make suspend
 ```
 
-### Stop boot2docker VM
+### Stop a host VM
 ```
 $ make stop
 ```
 
-### Destroy boot2docker VM
+### Destroy containers and a host VM
 ```
 $ make clean
 ```
