@@ -43,5 +43,5 @@ $ make clean
 
 ### Set DOCKER_HOST to use Docker from a local machine
 ```
-$ export DOCKER_HOST="tcp://`make ssh-config | sed -n "s/[ ]*HostName[ ]*//gp"`:4243"
+$ export DOCKER_HOST="tcp://`make ssh-config | sed -n "s/[ ]*HostName[ ]*//gp"`:2375"
 ```

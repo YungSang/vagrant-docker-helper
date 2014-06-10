@@ -9,7 +9,7 @@ provision:
 ssh:
 	cd docker-host; vagrant ssh
 
-# export DOCKER_HOST="tcp://`make ssh-config | sed -n "s/[ ]*HostName[ ]*//gp"`:4243"
+# export DOCKER_HOST="tcp://`make ssh-config | sed -n "s/[ ]*HostName[ ]*//gp"`:2375"
 ssh-config:
 	cd docker-host; vagrant ssh-config
 
