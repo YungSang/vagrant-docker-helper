@@ -4,7 +4,7 @@
 - Use NFS synced folder instead of rsync.
 
 ***Note) But you may prefer Docker provisioner to Docker provider on Mac.***
-https://github.com/YungSang/vagrant-docker-helper/tree/master/provisioner
+https://github.com/YungSang/vagrant-docker-helper/blob/coreos/provisioner/Vagrantfile
 
 ### Boot up a host VM (= `vagrant up`)
 ```
