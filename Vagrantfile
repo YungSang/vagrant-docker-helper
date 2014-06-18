@@ -7,6 +7,7 @@ Vagrant.require_version ">= 1.6.2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "docker" do |d|
+    d.vagrant_machine     = "docker-provider"
     d.vagrant_vagrantfile = "./docker-host/Vagrantfile"
 
     d.build_dir = "."
