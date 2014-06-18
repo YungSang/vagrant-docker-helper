@@ -1,6 +1,8 @@
 require_relative "host_machine_sync_folders-patched.rb"
 
 Vagrant.configure("2") do |config|
+  config.vm.define "docker-provider"
+
   config.vm.box = "yungsang/coreos"
 
   config.vm.provider "virtualbox" do |v, override|
