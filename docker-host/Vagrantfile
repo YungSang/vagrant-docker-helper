@@ -1,24 +1,17 @@
-require_relative "host_machine_sync_folders-patched.rb"
+require_relative "action.rb"
 
 Vagrant.configure("2") do |config|
   config.vm.define "docker-provider"
 
   config.vm.provider "virtualbox" do |v, override|
     override.vm.box = "yungsang/boot2docker"
-    # On VirtualBox, we don't have guest additions or a functional vboxsf
-    # in TinyCore Linux, so tell Vagrant that so it can be smarter.
-    v.check_guest_additions = false
-    v.functional_vboxsf     = false
     override.vm.network "private_network", ip: "192.168.33.10"
   end
 
   config.vm.provider "parallels" do |p, override|
     override.vm.box = "parallels/boot2docker"
-    p.check_guest_tools = false
-    p.functional_psf    = false
     override.vm.network "private_network", ip: "192.168.34.10"
   end
 
-#  config.nfs.functional = false
-  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: true, type: "nfs"
 end
